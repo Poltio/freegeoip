@@ -7,7 +7,7 @@ RUN cd /go/src/github.com/fiorix/freegeoip/cmd/freegeoip && go get && go install
 
 ENTRYPOINT ["/go/bin/freegeoip"]
 
-EXPOSE 8080
+EXPOSE 3000
 
 # CMD instructions:
 # Add  "-use-x-forwarded-for"      if your server is behind a reverse proxy
