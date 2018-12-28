@@ -65,7 +65,7 @@ func NewConfig() *Config {
 	return &Config{
 		FastOpen:            false,
 		Naggle:              false,
-		ServerAddr:          ":8080",
+		ServerAddr:          ":3000",
 		HTTP2:               true,
 		HSTS:                "",
 		TLSCertFile:         "cert.pem",
