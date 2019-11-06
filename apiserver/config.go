@@ -6,6 +6,7 @@ package apiserver
 
 import (
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -62,10 +63,15 @@ type Config struct {
 
 // NewConfig creates and initializes a new Config with default values.
 func NewConfig() *Config {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	addr := fmt.Sprintf(":%s", port)
 	return &Config{
 		FastOpen:            false,
 		Naggle:              false,
-		ServerAddr:          ":3000",
+		ServerAddr:          addr,
 		HTTP2:               true,
 		HSTS:                "",
 		TLSCertFile:         "cert.pem",
