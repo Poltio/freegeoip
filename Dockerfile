@@ -1,4 +1,4 @@
-FROM golang:1.9
+FROM golang:1.13
 
 COPY cmd/freegeoip/public /var/www
 
@@ -13,8 +13,6 @@ RUN \
 
 USER freegeoip
 ENTRYPOINT ["/go/bin/freegeoip"]
-
-EXPOSE 3000
 
 # CMD instructions:
 # Add  "-use-x-forwarded-for"      if your server is behind a reverse proxy

@@ -24,4 +24,7 @@ require (
 	golang.org/x/crypto v0.0.0-20181203042331-505ab145d0a9 // indirect
 	golang.org/x/net v0.0.0-20170106005117-905989bd20b7
 	golang.org/x/sys v0.0.0-20161214190518-d75a52659825
+	golang.org/x/text v0.3.2
 )
+
+go 1.13

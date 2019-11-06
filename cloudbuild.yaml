@@ -1,0 +1,30 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '--build-arg',
+      'env=${_ENV}',
+      '-t',
+      'gcr.io/poltio-164412/poltio-ip',
+      '.']
+    # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/poltio-164412/poltio-ip']
+    # Deploy container image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'beta',
+      'run',
+      'deploy',
+      'poltio-ip-${_ENV}',
+      '--image',
+      'gcr.io/poltio-164412/poltio-ip',
+      '--region',
+      'europe-west1',
+      '--platform',
+      'managed',
+      '--allow-unauthenticated']
+
+images:
+  - gcr.io/poltio-164412/poltio-ip
