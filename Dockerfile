@@ -13,7 +13,7 @@ RUN \
 
 USER freegeoip
 ENTRYPOINT ["/go/bin/freegeoip"]
-
+CMD ["-use-x-forwarded-for"]
 # CMD instructions:
 # Add  "-use-x-forwarded-for"      if your server is behind a reverse proxy
 # Add  "-public", "/var/www"       to enable the web front-end
