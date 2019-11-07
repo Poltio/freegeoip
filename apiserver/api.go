@@ -212,7 +212,6 @@ func (f *apiHandler) iplookup(writer writerFunc) http.HandlerFunc {
 		err = Do(func(attempt int) (bool, error) {
 			err := f.db.Lookup(ip, &q.DefaultQuery)
 			if err != nil {
-				fmt.Println("Sleeping for 1 second since we are not ready", attempt)
 				time.Sleep(1 * time.Second)
 			}
 			return attempt < 20, err
