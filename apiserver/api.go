@@ -9,6 +9,7 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -19,6 +20,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/bradfitz/gomemcache/memcache"
 	"github.com/fiorix/go-redis/redis"
@@ -40,6 +42,29 @@ type apiHandler struct {
 	conf  *Config
 	cors  *cors.Cors
 	nrapp newrelic.Application
+}
+
+type Func func(attempt int) (retry bool, err error)
+
+var MaxRetries = 20
+
+var errMaxRetriesReached = errors.New("exceeded retry limit")
+
+func Do(fn Func) error {
+	var err error
+	var cont bool
+	attempt := 1
+	for {
+		cont, err = fn(attempt)
+		if !cont || err == nil {
+			break
+		}
+		attempt++
+		if attempt > MaxRetries {
+			return errMaxRetriesReached
+		}
+	}
+	return err
 }
 
 // NewHandler creates an http handler for the freegeoip server that
@@ -183,7 +208,16 @@ func (f *apiHandler) iplookup(writer writerFunc) http.HandlerFunc {
 			return
 		}
 		ip, q := ips[rand.Intn(len(ips))], &geoipQuery{}
-		err = f.db.Lookup(ip, &q.DefaultQuery)
+
+		err = Do(func(attempt int) (bool, error) {
+			err := f.db.Lookup(ip, &q.DefaultQuery)
+			if err != nil {
+				fmt.Println("Sleeping for 1 second since we are not ready", attempt)
+				time.Sleep(1 * time.Second)
+			}
+			return attempt < 20, err
+		})
+		//err = f.db.Lookup(ip, &q.DefaultQuery)
 		if err != nil {
 			http.Error(w, "Try again later.", http.StatusServiceUnavailable)
 			return
