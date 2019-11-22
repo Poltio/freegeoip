@@ -23,7 +23,9 @@ steps:
       '--platform',
       'gke',
       '--cluster',
-      'poltio-cluster-1']
+      'poltio-cluster-1',
+      '--cluster-location',
+      'europe-west1-b']
 
 images:
   - gcr.io/poltio-164412/poltio-ip
