@@ -23,7 +23,9 @@ steps:
       '--region',
       'europe-west1',
       '--platform',
-      'managed',
+      'gke',
+      '--cluster',
+      'poltio-cluster-1',
       '--allow-unauthenticated']
 
 images:
