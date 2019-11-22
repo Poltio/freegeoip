@@ -20,8 +20,6 @@ steps:
       'poltio-ip-${_ENV}',
       '--image',
       'gcr.io/poltio-164412/poltio-ip',
-      '--region',
-      'europe-west1',
       '--platform',
       'gke',
       '--cluster',
