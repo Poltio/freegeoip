@@ -27,7 +27,7 @@ steps:
       '--cluster-location',
       'europe-west1-b',
       '--min-instances',
-      '1']
+      '${_MIN_I}']
 
 images:
   - gcr.io/poltio-164412/poltio-ip
