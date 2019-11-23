@@ -14,7 +14,7 @@ steps:
     # Deploy container image to Cloud Run
   - name: 'gcr.io/cloud-builders/gcloud'
     args: [
-      'beta',
+      'alpha',
       'run',
       'deploy',
       'poltio-ip-${_ENV}',
@@ -25,7 +25,9 @@ steps:
       '--cluster',
       'poltio-cluster-1',
       '--cluster-location',
-      'europe-west1-b']
+      'europe-west1-b',
+      '--min-instances',
+      '1']
 
 images:
   - gcr.io/poltio-164412/poltio-ip
